@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import stats from '../data/ranked_stats.json'
 
@@ -6,11 +6,16 @@ import stats from '../data/ranked_stats.json'
 
 const App = () => {
 
-const getData = ()=> {
-    return stats.sb.descending.map((item, index)=> {
+  const [currentDataProperties, setCurrentDataProperties] = useState({criteria: "avg", order: "descending"});
+
+  const getData = ()=> {
+    const {criteria, order} = currentDataProperties;
+    const currentData = stats[criteria][order];
+
+    return currentData.map((item, index)=> {
         return (
             <tr>  
-                <td >{item.full_name}</td>
+                <td>{item.full_name}</td>
                 <td>{item.avg}</td>
                 <td>{item.hr}</td>
                 <td>{item.rbi}</td>
@@ -21,21 +26,24 @@ const getData = ()=> {
         )
     })
 }
-  useEffect(() => {
 
-  }, []);
+const handleSort = (criteria)=> {
+  //console.log(Object.keys)
+  setCurrentDataProperties({criteria, order: "descending"});
+}
+
 
   return (
     <table>
     <tbody>
     <tr>
       <td>Player Name</td>
-      <td>Avg</td>
-      <td>Home Runs</td>
-      <td>RBIs</td>
-      <td>Runs</td>
-      <td>SB</td>
-      <td>OPS</td>
+      <td onClick = {()=> handleSort("hr")}>Avg</td>
+      <td onClick = {()=> handleSort("hr")}>HRs</td>
+      <td onClick = {()=> handleSort("rbi")}>RBIs</td>
+      <td onClick = {()=> handleSort("runs")}>Runs</td>
+      <td onClick = {()=> handleSort("sb")}>SB</td>
+      <td onClick = {()=> handleSort("ops")}>OPS</td>
     </tr>
     { getData() }
     </tbody>
