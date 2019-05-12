@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import short from 'short-uuid';
 import stats from '../data/ranked_stats.json';
@@ -23,6 +24,7 @@ const TitleCell = styled.th`
   border-bottom: 2px solid #353535;
   padding: 20px;
   cursor: pointer;
+  background: ${props => props.selected ? '#daefdf': 'transparent'};
 `;
 
 const Cell = styled.td`
@@ -55,24 +57,49 @@ const Table = ({handleSort, currentDataProperties}) => {
       );
     });
   };
-  
+
+  function getArrow(criteria) {
+    if (criteria === currentDataProperties.criteria && currentDataProperties.order === 'descending') {
+      return '';
+    }
+    if (criteria === currentDataProperties.criteria) {
+      return 'a';
+    }
+    return '';
+  }
 
   return (
     <TableContainer>
       <tbody>
         <TitleRow>
           <TitleCell>Player Name</TitleCell>
-          <TitleCell onClick={() => handleSort('avg')}>Avg</TitleCell>
-          <TitleCell onClick={() => handleSort('hr')}>HRs</TitleCell>
-          <TitleCell onClick={() => handleSort('rbi')}>RBIs</TitleCell>
-          <TitleCell onClick={() => handleSort('runs')}>Runs</TitleCell>
-          <TitleCell onClick={() => handleSort('sb')}>SB</TitleCell>
-          <TitleCell onClick={() => handleSort('ops')}>OPS</TitleCell>
+          <TitleCell selected = {(currentDataProperties.criteria === 'avg')} onClick={() => handleSort('avg')}>Avg</TitleCell>
+          <TitleCell selected = {currentDataProperties.criteria === 'hr'} onClick={() => handleSort('hr')}>HRs</TitleCell>
+          <TitleCell selected = {currentDataProperties.criteria === 'rbi'} onClick={() => handleSort('rbi')}>RBIs</TitleCell>
+          <TitleCell selected = {currentDataProperties.criteria === 'runs'} onClick={() => handleSort('runs')}>Runs</TitleCell>
+          <TitleCell selected = {currentDataProperties.criteria === 'sb'} onClick={() => handleSort('sb')}>SB</TitleCell>
+          <TitleCell selected = {currentDataProperties.criteria === 'ops'} onClick={() => handleSort('ops')}>OPS</TitleCell>
         </TitleRow>
         {getData()}
       </tbody>
     </TableContainer>
   );
+};
+
+Table.defaultProps = {
+  handleSort: ()=> 'The handleSort props was not passed',
+  currentDataProperties: {
+    criteria: 'avg',
+    order: 'descending'
+  }
+};
+
+Table.propTypes = {
+  handleSort: PropTypes.func,
+  currentDataProperties: PropTypes.shape({
+    criteria: PropTypes.string,
+    order: PropTypes.string
+  })
 };
 
 export default Table;
