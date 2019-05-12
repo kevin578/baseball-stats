@@ -18,5 +18,7 @@ export const styles = {
   axisStyle: {
     line: { stroke: chartColor },
     text: { fill: chartColor }
-  }
+  },
+  chartWidth: 500,
+  chartHeight: 400
 };

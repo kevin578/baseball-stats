@@ -11,7 +11,7 @@ const HintContainer = styled.div`
   padding: 1px 10px;
   border-radius: 4px;
   color: #474747;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 `;
 
 const BarChart = ({ currentDataProperties }) => {
@@ -26,10 +26,7 @@ const BarChart = ({ currentDataProperties }) => {
   }
 
   function formatYAxis(t, i) {
-    if (
-      currentDataProperties.criteria === 'avg' ||
-      currentDataProperties.criteria === 'ops'
-    ) {
+    function convertDecimals() {
       if (i === 0)
         return (
           <tspan x="0" dy="0">
@@ -39,6 +36,14 @@ const BarChart = ({ currentDataProperties }) => {
       const str = (t * 1000).toString();
       return <tspan x="0" dy="0">{`.${str}`}</tspan>;
     }
+
+    if (
+      currentDataProperties.criteria === 'avg' ||
+      currentDataProperties.criteria === 'ops'
+    ) {
+      return convertDecimals();
+    }
+
     return (
       <tspan x="0" dy="0">
         {t}
@@ -52,15 +57,16 @@ const BarChart = ({ currentDataProperties }) => {
   }
 
   function mouseExit() {
-    setHintValue();
     setHoveredPlayer(null);
+    setHintValue();
+
   }
 
   return (
     <ChartContainer>
       <XYPlot
-        width={500}
-        height={400}
+        width={styles.chartWidth}
+        height={styles.chartHeight}
         xType="ordinal"
         margin={{ left: 50, bottom: 150 }}
         onMouseLeave={mouseExit}
@@ -79,7 +85,11 @@ const BarChart = ({ currentDataProperties }) => {
           tickSize={styles.tickSize}
           style={styles.axisStyle}
         />
-        <YAxis tickFormat={formatYAxis} style={styles.axisStyle} tickSize={styles.tickSize}/>
+        <YAxis
+          tickFormat={formatYAxis}
+          style={styles.axisStyle}
+          tickSize={styles.tickSize}
+        />
         {hintValue && (
           <Hint value={hintValue}>
             <HintContainer>

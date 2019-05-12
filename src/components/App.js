@@ -23,15 +23,15 @@ const App = () => {
     order: 'descending'
   });
 
-  function handleSort(criteria) {
+  function handleSort(newCriteria) {
     let order = 'descending';
     if (
-      criteria === currentDataProperties.criteria &&
+      newCriteria === currentDataProperties.criteria &&
       currentDataProperties.order === 'descending'
     ) {
       order = 'ascending';
     }
-    setCurrentDataProperties({ criteria, order });
+    setCurrentDataProperties({ criteria: newCriteria, order });
   }
 
   return (
