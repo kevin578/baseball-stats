@@ -3,15 +3,22 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import short from 'short-uuid';
 import stats from '../data/ranked_stats.json';
+import media from './mediaQueries';
 
 const TableContainer = styled.table`
   background: #eaf7ed;
   margin-top: 40px;
-  width: 500px;
+  width: 400px;
   border-collapse: collapse;
   border-radius: 4px;
   margin-bottom: 40px;
   margin-left: 40px;
+  ${media.tablet`
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  `}
+  ${media.phone`width: 90%`}
 `;
 
 const TitleRow = styled.tr`
@@ -25,11 +32,20 @@ const TitleCell = styled.th`
   padding: 20px;
   cursor: pointer;
   background: ${props => (props.selected ? '#daefdf' : 'transparent')};
+  ${media.phone`
+  padding: 5px;
+  font-size: 12px;
+  `}
+
 `;
 
 const Cell = styled.td`
   height: 20px;
   padding: 20px;
+  ${media.phone`
+  padding: 5px;
+  font-size: 12px;
+  `}
 `;
 
 const Row = styled.tr`

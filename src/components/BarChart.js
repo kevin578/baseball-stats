@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { XYPlot, XAxis, YAxis, Hint, VerticalBarSeries } from 'react-vis';
+import {
+  XYPlot,
+  XAxis,
+  YAxis,
+  Hint,
+  VerticalBarSeries,
+  makeWidthFlexible
+} from 'react-vis';
 import stats from '../data/ranked_stats.json';
 import '../../node_modules/react-vis/dist/style.css';
 import { ChartContainer, styles } from '../style';
+const FlexibleXYPlot = makeWidthFlexible(XYPlot);
 
 const HintContainer = styled.div`
   background: #eaf7ed;
@@ -33,8 +41,14 @@ const BarChart = ({ currentDataProperties }) => {
             .000
           </tspan>
         );
-      const str = (t * 1000).toString();
-      return <tspan x="0" dy="0">{`.${str}`}</tspan>;
+      const str = (t * 1000).toString().split('');
+      const insertSpot = str.length - 3;
+      str.splice(insertSpot, 0, '.');
+      return (
+        <tspan x="0" dy="0">
+          {str.join('')}
+        </tspan>
+      );
     }
 
     if (
@@ -59,20 +73,18 @@ const BarChart = ({ currentDataProperties }) => {
   function mouseExit() {
     setHoveredPlayer(null);
     setHintValue();
-
   }
 
   return (
     <ChartContainer>
-      <XYPlot
-        width={styles.chartWidth}
+      <FlexibleXYPlot
         height={styles.chartHeight}
         xType="ordinal"
         margin={{ left: 50, bottom: 150 }}
         onMouseLeave={mouseExit}
       >
         <VerticalBarSeries
-          animation={{ stiffness: 50 }}
+          // animation={{ stiffness: 50 }}
           data={getData()}
           onValueMouseOver={mouseOver}
           colorType="literal"
@@ -98,7 +110,7 @@ const BarChart = ({ currentDataProperties }) => {
             </HintContainer>
           </Hint>
         )}
-      </XYPlot>
+      </FlexibleXYPlot>
     </ChartContainer>
   );
 };

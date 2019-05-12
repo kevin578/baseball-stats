@@ -1,7 +1,8 @@
 import React from 'react';
-import { XYPlot, XAxis, YAxis, VerticalBarSeries } from 'react-vis';
+import { XYPlot, XAxis, YAxis, VerticalBarSeries, makeWidthFlexible } from 'react-vis';
 import stats from '../data/ranked_stats.json';
 import { ChartContainer, styles } from '../style';
+const FlexibleXYPlot = makeWidthFlexible(XYPlot); 
 
 const Histogram = () => {
   function distributeHomeRuns() {
@@ -39,14 +40,14 @@ const Histogram = () => {
 
   return (
     <ChartContainer>
-      <XYPlot width={styles.chartWidth} height={styles.chartHeight}>
+      <FlexibleXYPlot height={styles.chartHeight}>
         <VerticalBarSeries data={getData()} color={styles.barColor} />
         <XAxis tickSize={styles.tickSize} />
         <YAxis
           tickSize={styles.tickSize}
           tickTotal={getData().sort((a, b) => b.y - a.y)[0].y}
         />
-      </XYPlot>
+      </FlexibleXYPlot>
     </ChartContainer>
   );
 };
