@@ -42,10 +42,13 @@ const Histogram = () => {
     <ChartContainer>
       <FlexibleXYPlot height={styles.chartHeight}>
         <VerticalBarSeries data={getData()} color={styles.barColor} />
-        <XAxis tickSize={styles.tickSize} />
+        <XAxis tickSize={styles.tickSize} style={styles.axisStyle} />
         <YAxis
+          style={styles.axisStyle}
+          left = {1}
           tickSize={styles.tickSize}
           tickTotal={getData().sort((a, b) => b.y - a.y)[0].y}
+          
         />
       </FlexibleXYPlot>
     </ChartContainer>
