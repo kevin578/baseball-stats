@@ -12,6 +12,7 @@ import {
 import stats from '../data/ranked_stats.json';
 import '../../node_modules/react-vis/dist/style.css';
 import { ChartContainer, styles } from '../style';
+
 const FlexibleXYPlot = makeWidthFlexible(XYPlot);
 
 const HintContainer = styled.div`
