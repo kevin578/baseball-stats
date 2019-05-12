@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Table from './Table';
 import BarChart from './BarChart';
-import Histogram from './Histogram'
+import Histogram from './Histogram';
 
 const Page = styled.div`
   display: flex;
 `;
 
-const TableContainer = styled.div`
-`;
+const TableContainer = styled.div``;
 
 const ChartContainer = styled.div`
   display: flex;
@@ -19,13 +18,12 @@ const ChartContainer = styled.div`
 `;
 
 const App = () => {
-
   const [currentDataProperties, setCurrentDataProperties] = useState({
     criteria: 'avg',
     order: 'descending'
   });
 
-  const handleSort = criteria => {
+  function handleSort(criteria) {
     let order = 'descending';
     if (
       criteria === currentDataProperties.criteria &&
@@ -34,16 +32,19 @@ const App = () => {
       order = 'ascending';
     }
     setCurrentDataProperties({ criteria, order });
-  };
+  }
 
   return (
     <Page>
       <TableContainer>
-        <Table currentDataProperties = {currentDataProperties} handleSort = {handleSort}/>;
+        <Table
+          currentDataProperties={currentDataProperties}
+          handleSort={handleSort}
+        />
       </TableContainer>
       <ChartContainer>
-        <BarChart currentDataProperties = {currentDataProperties}/>
-        <Histogram currentDataProperties = {currentDataProperties}/>
+        <BarChart currentDataProperties={currentDataProperties} />
+        <Histogram currentDataPrhoperties={currentDataProperties} />
       </ChartContainer>
     </Page>
   );
